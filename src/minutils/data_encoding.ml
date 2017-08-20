@@ -21,6 +21,7 @@ and document =
   [ `O of (string * json) list
   | `A of json list ]
 
+(* See package [ocplib-json-typed]. https://github.com/OCamlPro/ocplib-json-typed *)
 type json_schema = Json_schema.schema
 
 exception No_case_matched
@@ -30,6 +31,8 @@ exception Invalid_tag of int * [ `Uint8 | `Uint16 ]
 exception Unexpected_enum of string * string list
 exception Invalid_size of int
 
+(* Iterate over [fs], applying each function to [v], returning [x] from the
+   first return value of the form [Some x]. Return [None] if no such value *)
 let apply fs v =
   let rec loop = function
     | [] -> raise No_case_matched
