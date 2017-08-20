@@ -174,7 +174,7 @@ and 'a t = {
 
 type 'a encoding = 'a t
 
-let rec classify : type a l. a t -> Kind.t = fun e ->
+let rec classify : type a. a t -> Kind.t = fun e ->
   let open Kind in
   match e.encoding with
   (* Fixed *)
