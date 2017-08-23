@@ -293,7 +293,7 @@ module Json = struct
     | _ -> e
 
   and lift_union_in_pair
-    : type a a_l b b_l. pair_builder -> Kind.t -> a t -> b t -> (a * b) t
+    : type a b. pair_builder -> Kind.t -> a t -> b t -> (a * b) t
     = fun b p e1 e2 ->
     match lift_union e1, lift_union e2 with
     | e1, { encoding = Union (_kind, tag, cases) } ->
