@@ -24,6 +24,7 @@ let test_simple_json ?msg ?(equal=Assert.equal) encoding value =
 
 let test_simple_bin ?msg ?(equal=Assert.equal) encoding value =
   let bin = Binary.to_bytes encoding value in
+  Assert.equal (Binary.length encoding value) (MBytes.length bin);
   let opt = Binary.of_bytes encoding bin in
   Assert.is_some ?msg opt;
   let result = match opt with None -> assert false | Some v -> v in

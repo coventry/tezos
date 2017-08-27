@@ -731,11 +731,11 @@ include Encoding
 
 module Binary = struct
 
-  type 'l writer = {
+  type writer = {
     write: 'a. 'a t -> 'a -> MBytes.t -> int -> int ;
   }
 
-  type 'l reader = {
+  type reader = {
     read: 'a. 'a t -> MBytes.t -> int -> int -> (int * 'a) ;
   }
 
@@ -947,7 +947,7 @@ let rec length : type x. x t -> x -> int = fun e ->
   end
 
   let rec write_rec
-    : type a l. a t -> a -> MBytes.t -> int -> int = fun e ->
+    : type a. a t -> a -> MBytes.t -> int -> int = fun e ->
     let open Kind in
     let open Writer in
     match e.encoding with
@@ -1152,7 +1152,7 @@ let rec length : type x. x t -> x -> int = fun e ->
 
   end
 
-  let rec read_rec : type a l. a t-> MBytes.t -> int -> int -> int * a = fun e ->
+  let rec read_rec : type a. a t-> MBytes.t -> int -> int -> int * a = fun e ->
     let open Kind in
     let open Reader in
     match e.encoding with
@@ -1175,7 +1175,7 @@ let rec length : type x. x t -> x -> int = fun e ->
     | String `Variable -> fun buf ofs len -> fixed_length_string len buf ofs len
     | String_enum (kind, l) -> begin
         fun buf ofs len ->
-          let ofs, str = read_rec (make @@ (String kind)) buf ofs len in
+          let ofs, str = read_rec (make @@ String kind) buf ofs len in
           try ofs, List.assoc str l
           with Not_found -> raise (Unexpected_enum (str, List.map fst l))
       end
@@ -1503,7 +1503,7 @@ let rec length : type x. x t -> x -> int = fun e ->
                          assert (acc == None) ;
                          Some (data_checker path encoding buf)
                      | _ -> acc
-                  )None cases
+                  ) None cases
               in
               begin match opt with
                 | None -> raise (Unexpected_tag ctag)
