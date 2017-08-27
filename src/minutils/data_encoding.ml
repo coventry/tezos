@@ -115,7 +115,7 @@ module Kind = struct
 
 end
 
-type 'a desc =
+type 'typearg desc =
   | Null : unit desc
   | Empty : unit desc
   | Ignore : unit desc
